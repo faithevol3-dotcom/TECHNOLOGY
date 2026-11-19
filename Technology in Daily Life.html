@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Technology in Daily Life</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Newsreader:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEF3F4; --surface:#FFFFFF; --ink:#14262E; --muted:#4D6068; --line:#C9D6DA; --accent:#0F6B6B; --accent-ink:#FFFFFF;
+  --stage:#F6E7B4; --stage-ink:#14262E;
+  color-scheme:light;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#0F1A1F;--surface:#17262D;--ink:#E8F0F2;--muted:#9DB0B7;--line:#2B3E46;--accent:#5FC3C3;--accent-ink:#0F1A1F;color-scheme:dark}
+}
+:root[data-theme="dark"]{--bg:#0F1A1F;--surface:#17262D;--ink:#E8F0F2;--muted:#9DB0B7;--line:#2B3E46;--accent:#5FC3C3;--accent-ink:#0F1A1F;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Newsreader',Georgia,serif;font-size:1.15rem;line-height:1.65}
+h1,h2,h3,.sans{font-family:'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 1.25rem}
+header.top{display:flex;justify-content:space-between;align-items:center;padding:1.1rem 0}
+header.top b{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.05rem}
+nav a{margin-left:1.2rem;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:.95rem;color:var(--ink);text-decoration:none}
+nav a:hover{color:var(--accent)}
+.hero{padding:4rem 0 3rem}
+.hero h1{font-size:clamp(2.6rem,8vw,5.6rem);line-height:.98;letter-spacing:-.03em;font-weight:800;margin:0 0 1.5rem;max-width:14ch}
+.hero p{max-width:56ch;font-size:1.3rem;color:var(--muted);margin:0 0 1.8rem}
+.btn{display:inline-block;background:var(--accent);color:var(--accent-ink);font-family:'Bricolage Grotesque',sans-serif;font-weight:700;padding:.8rem 1.4rem;border-radius:999px;text-decoration:none}
+section{padding:3rem 0}
+h2{font-size:clamp(1.8rem,4vw,2.6rem);letter-spacing:-.02em;line-height:1.1;margin:0 0 .6rem}
+.lede{color:var(--muted);max-width:60ch;margin:0 0 2rem}
+
+/* Day stage: the one memorable element */
+.stage{--stage:#F6E7B4;--stage-ink:#14262E;background:var(--stage);color:var(--stage-ink);border-radius:28px;padding:1.5rem;transition:background .5s,color .5s}
+.stage[data-t="midday"]{--stage:#BFE3EA}
+.stage[data-t="evening"]{--stage:#E4B7C9}
+.stage[data-t="night"]{--stage:#1D2A4D;--stage-ink:#F1F4FF}
+.tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.5rem}
+.tabs button{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1rem;border:2px solid currentColor;background:transparent;color:inherit;padding:.5rem 1.1rem;border-radius:999px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--stage-ink);color:var(--stage);border-color:var(--stage-ink)}
+.stage h3{font-size:1.9rem;margin:0 0 .3rem;letter-spacing:-.02em}
+.stage .time{font-family:'Bricolage Grotesque',sans-serif;font-weight:500;margin:0 0 1.2rem;opacity:.8}
+.items{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem;margin:0;padding:0;list-style:none}
+.items li{border-top:2px solid currentColor;padding-top:.7rem}
+.items strong{font-family:'Bricolage Grotesque',sans-serif;font-size:1.1rem;display:block}
+.items span{font-size:1rem;line-height:1.5;display:block}
+
+/* Areas */
+.areas{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem 3rem}
+.areas h3{font-size:1.35rem;margin:0 0 .3rem}
+.areas p{margin:0;color:var(--muted);font-size:1.05rem}
+.areas article{border-top:1px solid var(--line);padding-top:1rem}
+
+/* Balance */
+.balance{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:1.5rem}
+.balance ul{list-style:none;margin:1rem 0 0;padding:0}
+.balance li{margin:0}
+.balance label{display:flex;gap:.8rem;align-items:flex-start;padding:.7rem 0;border-top:1px solid var(--line);cursor:pointer}
+.balance input{width:1.3rem;height:1.3rem;margin-top:.3rem;accent-color:var(--accent);flex:none}
+.balance input:checked + span{text-decoration:line-through;color:var(--muted)}
+.meter{height:10px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:1rem}
+.meter i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+#msg{font-family:'Bricolage Grotesque',sans-serif;font-weight:500;margin:.6rem 0 0}
+footer{padding:2.5rem 0 3rem;color:var(--muted);font-size:1rem;border-top:1px solid var(--line);margin-top:2rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media (max-width:560px){nav{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <b>Everyday Tech</b>
+    <nav aria-label="Sections"><a href="#day">A day with tech</a><a href="#areas">Where it helps</a><a href="#balance">Healthy habits</a></nav>
+  </header>
+
+  <div class="hero">
+    <h1>Technology is already part of your day.</h1>
+    <p>From the alarm that wakes you to the song that helps you sleep, small tools quietly shape how we live, work, learn and rest. Here is what they do and how to use them well.</p>
+    <a class="btn" href="#day">Follow a typical day</a>
+  </div>
+
+  <section id="day" aria-labelledby="day-h">
+    <h2 id="day-h">A day, from wake-up to bedtime</h2>
+    <p class="lede">Choose a time of day to see the technology you probably use without thinking about it.</p>
+    <div class="stage" id="stage" data-t="morning">
+      <div class="tabs" role="tablist" aria-label="Time of day" id="tabs"></div>
+      <div role="tabpanel" id="panel" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section id="areas" aria-labelledby="areas-h">
+    <h2 id="areas-h">Where technology helps most</h2>
+    <p class="lede">Six parts of life that look very different from twenty years ago.</p>
+    <div class="areas">
+      <article><h3>Communication</h3><p>Messages, voice notes and video calls keep families and teams close, even across countries and time zones.</p></article>
+      <article><h3>Health</h3><p>Phones and watches track steps, sleep and heart rate. Telehealth lets you speak to a doctor without the journey.</p></article>
+      <article><h3>Money</h3><p>Mobile money and banking apps let you pay bills, send cash and save from your phone in seconds.</p></article>
+      <article><h3>Learning</h3><p>Free courses, video lessons and AI tutors make it possible to learn almost any skill at your own pace.</p></article>
+      <article><h3>Getting around</h3><p>Maps show traffic in real time, ride apps find a driver, and digital tickets replace paper.</p></article>
+      <article><h3>Home</h3><p>Smart bulbs, solar systems and phone-controlled appliances help cut waste and save electricity.</p></article>
+    </div>
+  </section>
+
+  <section id="balance" aria-labelledby="bal-h">
+    <h2 id="bal-h">Use it well</h2>
+    <p class="lede">Good technology serves you, not the other way round. Tick the habits you want to build.</p>
+    <div class="balance">
+      <strong class="sans" id="count">0 of 6 habits chosen</strong>
+      <div class="meter" aria-hidden="true"><i id="bar"></i></div>
+      <p id="msg">Pick one to start.</p>
+      <ul id="habits"></ul>
+    </div>
+  </section>
+
+  <footer>Made as a simple guide to everyday technology. Share it with someone who is curious.</footer>
+</div>
+
+<script>
+var DAY={
+ morning:{label:"Morning",time:"6:00 – 11:00",items:[
+  ["Phone alarm","Wakes you gently and adjusts to your sleep pattern."],
+  ["Weather and news","A quick check tells you whether to carry an umbrella."],
+  ["Mobile money","Pay for transport or breakfast with a tap."],
+  ["Maps","Finds the fastest route around traffic."]]},
+ midday:{label:"Midday",time:"11:00 – 16:00",items:[
+  ["Video calls","Meet a colleague or teacher without travelling."],
+  ["Cloud documents","Work on the same file from any device."],
+  ["Online learning","Watch a short lesson on your lunch break."],
+  ["Digital payments","Order food or shop from your phone."]]},
+ evening:{label:"Evening",time:"16:00 – 21:00",items:[
+  ["Messaging","Check in with family and friends."],
+  ["Smart lights and solar","Switch on light and save power."],
+  ["Streaming","Watch a film or listen to a podcast."],
+  ["Fitness tracker","Counts your steps and reminds you to move."]]},
+ night:{label:"Night",time:"21:00 – 6:00",items:[
+  ["Night mode","Warmer screen colours are gentler on the eyes."],
+  ["Do not disturb","Silences alerts until morning."],
+  ["Sleep tracking","Shows how long and how well you slept."],
+  ["Backups","Photos and files save themselves while you rest."]]}
+};
+var HABITS=["Keep your phone out of the bedroom at night.","Turn off non-essential notifications.","Take a screen break every hour.","Use a strong, unique password with two-step sign-in.","Check a source before sharing news.","Spend one meal a day device-free."];
+var tabs=document.getElementById('tabs'),panel=document.getElementById('panel'),stage=document.getElementById('stage');
+Object.keys(DAY).forEach(function(k,i){
+  var b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.textContent=DAY[k].label;b.dataset.k=k;
+  b.setAttribute('aria-selected',i===0);b.onclick=function(){show(k)};tabs.appendChild(b);
+});
+function show(k){
+  var d=DAY[k];stage.dataset.t=k;
+  Array.prototype.forEach.call(tabs.children,function(b){b.setAttribute('aria-selected',b.dataset.k===k)});
+  panel.innerHTML='<h3>'+d.label+'</h3><p class="time">'+d.time+'</p><ul class="items">'+d.items.map(function(x){return '<li><strong>'+x[0]+'</strong><span>'+x[1]+'</span></li>'}).join('')+'</ul>';
+}
+show('morning');
+var ul=document.getElementById('habits');
+HABITS.forEach(function(h,i){
+  var li=document.createElement('li');
+  li.innerHTML='<label><input type="checkbox"><span>'+h+'</span></label>';
+  li.querySelector('input').onchange=update;ul.appendChild(li);
+});
+function update(){
+  var n=ul.querySelectorAll('input:checked').length;
+  document.getElementById('count').textContent=n+' of '+HABITS.length+' habits chosen';
+  document.getElementById('bar').style.width=(n/HABITS.length*100)+'%';
+  document.getElementById('msg').textContent=n===0?'Pick one to start.':n<4?'Good start. Small changes add up.':n<HABITS.length?'Nice balance. Almost there.':'You are in control of your tech.';
+}
+</script>
+</body>
+</html>
