@@ -1,7 +1,6 @@
 # TECHNOLOGY
 WEBSITE
-# Tecnology
-website
+
 # Technology in Daily Life
 
 A simple one-page website that shows how technology fits into an ordinary day, where it helps most, and how to use it in a healthy way.
